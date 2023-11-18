@@ -9,7 +9,7 @@ on:
       - main
 
 env:
-  RESOURCE_PATH: /home/runner/work/BackEnd-Repo/BackEnd-Repo/src/main/resources
+  RESOURCE_PATH: /home/runner/work/Backend-Repo/Backend-Repo/src/main/resources
   PROJECT_NAME : BackEnd-Repo
 
 permissions:
