@@ -28,7 +28,7 @@ public class GiftServiceImpl implements GiftService {
     @Override
     public String createGift(GiftRequestDTO requestDTO) {
         MultipartFile imageFile = requestDTO.getImageFile();
-        ImageDTO imageDTO = s3Util.uploadFileToS3(imageFile, "image");
+        ImageDTO imageDTO = s3Util.uploadImageFileToS3(imageFile);
 
         Member member = memberRepository.findById(requestDTO.getMid()).orElseThrow(
                 () -> new IllegalArgumentException("올바르지 않은 mid")
