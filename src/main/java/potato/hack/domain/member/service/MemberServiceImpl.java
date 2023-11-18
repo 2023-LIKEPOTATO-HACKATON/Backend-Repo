@@ -34,9 +34,13 @@ public class MemberServiceImpl implements MemberService {
 
         Member member = result.orElseThrow();
 
+        MemberRole role = member.getRoleSet().iterator().next();
+
         return MemberResponseDTO.builder()
                 .mid(member.getMid())
-                .role(member.getRoleSet().toString())
+                .name(member.getName())
+                .phone(member.getPhone())
+                .role(String.valueOf(role))
                 .build();
     }
 
@@ -68,6 +72,8 @@ public class MemberServiceImpl implements MemberService {
 
         Member member = Member.builder()
                 .mid(memberJoinDTO.getMid())
+                .name(memberJoinDTO.getName())
+                .phone(memberJoinDTO.getPhone())
                 .password(memberJoinDTO.getPassword())
                 .build();
 
@@ -80,4 +86,9 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(member);
     }
 
+    @Override
+    public int getMyCreditTotal(String mid) {
+
+        return memberRepository.getCreditTotal(mid);
+    }
 }
