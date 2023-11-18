@@ -75,7 +75,7 @@ jobs:
           host: ${{ secrets.NCP_SERVER_IP }}
           username: ${{ secrets.NCP_SERVER_USERNAME }}
           password: ${{ secrets.NCP_SERVER_PASSWORD }}
-          port: ${{ secrets.NCP_SERVER_PORT }}
+          port: 22
           script: |
             echo docker login -u ${{ secrets.NCP_ACCESS_KEY }} ${{ secrets.NCP_SECRET_KEY }} ${{ secrets.NCP_CONTAINER_REGISTRY }}
             
