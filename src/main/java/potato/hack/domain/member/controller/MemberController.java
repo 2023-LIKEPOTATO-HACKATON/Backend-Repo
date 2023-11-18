@@ -26,14 +26,14 @@ public class MemberController {
     }
 
     @PreAuthorize("authentication.principal.username == #mid")
-    @GetMapping("/auth/{mid}")
+    @GetMapping("/my/{mid}")
     public MemberResponseDTO getStudentInfo(@PathVariable String mid) {
 
         return memberService.getStudentDetails(mid);
     }
 
     @PreAuthorize("authentication.principal.username == #mid")
-    @GetMapping("/auth/myTotal/{mid}")
+    @GetMapping("/my/Total/{mid}")
     public Map<String, Integer> getMyCreditTotal(@PathVariable String mid) {
 
         int myCreditTotal = memberService.getMyCreditTotal(mid);
