@@ -1,4 +1,4 @@
-package com.hallym.rehab.global.config;
+package potato.hack.global.config;
 
 
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import potato.hack.global.config.AppConfig;
 import potato.hack.global.security.APIUserDetailsService;
 import potato.hack.global.security.filter.APILoginFilter;
 import potato.hack.global.security.filter.RefreshTokenFilter;
