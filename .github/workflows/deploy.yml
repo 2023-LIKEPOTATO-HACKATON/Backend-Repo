@@ -70,7 +70,7 @@ jobs:
           secrets: |
             GIT_AUTH_TOKEN=${{ secrets.GIT_TOKEN }}
       - name: Connect to Server and Pull from Container Registry
-        uses: appleboy/ssh-action
+        uses: appleboy/ssh-action@v1.0.0 
         with:
           host: ${{ secrets.NCP_SERVER_IP }}
           username: ${{ secrets.NCP_SERVER_USERNAME }}
