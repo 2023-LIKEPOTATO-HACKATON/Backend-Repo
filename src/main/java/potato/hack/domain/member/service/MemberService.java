@@ -12,4 +12,5 @@ public interface MemberService {
 
     void registerStudent(MemberJoinDTO memberJoinDTO) ;
 
+    int getMyCreditTotal(String mid);
 }

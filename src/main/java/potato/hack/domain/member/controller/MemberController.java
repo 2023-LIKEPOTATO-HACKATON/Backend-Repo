@@ -10,6 +10,7 @@ import potato.hack.domain.member.dto.MemberResponseDTO;
 import potato.hack.domain.member.service.MemberService;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -25,12 +26,18 @@ public class MemberController {
     }
 
     @PreAuthorize("authentication.principal.username == #mid")
-    @GetMapping("/auth/{mid}")
+    @GetMapping("/my/{mid}")
     public MemberResponseDTO getStudentInfo(@PathVariable String mid) {
 
         return memberService.getStudentDetails(mid);
     }
 
+    @PreAuthorize("authentication.principal.username == #mid")
+    @GetMapping("/my/Total/{mid}")
+    public Map<String, Integer> getMyCreditTotal(@PathVariable String mid) {
 
+        int myCreditTotal = memberService.getMyCreditTotal(mid);
+        return Map.of("amount", myCreditTotal);
+    }
 
 }

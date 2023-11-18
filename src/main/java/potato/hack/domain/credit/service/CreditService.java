@@ -1,11 +1,11 @@
 package potato.hack.domain.credit.service;
 
-import potato.hack.domain.credit.entity.Credit;
-import potato.hack.global.pageDTO.PageResponseDTO;
+import potato.hack.domain.credit.dto.CreditResponseDTO;
+
+import java.util.List;
 
 public interface CreditService {
 
-    PageResponseDTO<Credit> getCreditList();
-
+    List<CreditResponseDTO> getCreditList(String mid);
 
 }
