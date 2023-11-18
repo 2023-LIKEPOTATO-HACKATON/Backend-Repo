@@ -32,7 +32,7 @@ public class S3Util {
         return convertedFile;
     }
 
-    public ImageDTO uploadFileToS3(MultipartFile multipartFile, String path) {
+    public ImageDTO uploadImageFileToS3(MultipartFile multipartFile) {
         AmazonS3 s3 = s3Client.getAmazonS3();
         String fileName = UUID.randomUUID() + "_" + multipartFile.getOriginalFilename();
         String fixedFileName = "s_" + fileName;
@@ -42,7 +42,7 @@ public class S3Util {
         try {
             Thumbnailator.createThumbnail(originalFile, fixedFile, 400, 400);
 
-            String objectPath = path + "/" + fixedFileName;
+            String objectPath = "image/" + fixedFileName;
             String baseUploadUrl = "https://kr.object.ncloudstorage.com/" + s3Client.getBucketName() + "/";
             String url = baseUploadUrl + objectPath;
 
@@ -68,6 +68,36 @@ public class S3Util {
             assert fixedFile != null;
             originalFile.delete();
             fixedFile.delete();
+        }
+    }
+
+    public ImageDTO uploadVideoFileToS3(MultipartFile multipartFile) {
+        AmazonS3 s3 = s3Client.getAmazonS3();
+        String fileName = UUID.randomUUID() + "_" + multipartFile.getOriginalFilename();
+
+        File file = convertMultipartFileToFile(multipartFile, fileName);
+
+        String objectPath = "video/" + fileName;
+        String baseUploadUrl = "https://kr.object.ncloudstorage.com/" + s3Client.getBucketName() + "/";
+        String url = baseUploadUrl + objectPath;
+        try {
+            s3.putObject(s3Client.getBucketName(), objectPath, file);
+            setAcl(objectPath);
+            log.info(url);
+
+            return ImageDTO.builder()
+                    .url(url)
+                    .objectPath(objectPath)
+                    .build();
+
+        } catch (AmazonS3Exception e) { // ACL Exception
+            log.info(e.getErrorMessage());
+            System.exit(1);
+            return null; // if error during upload, return null
+        } finally {
+            // Delete temporary files used when uploading
+            assert file != null;
+            file.delete();
         }
     }
 
