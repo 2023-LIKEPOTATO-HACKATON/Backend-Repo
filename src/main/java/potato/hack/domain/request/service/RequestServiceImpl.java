@@ -31,6 +31,12 @@ public class RequestServiceImpl implements RequestService {
     private final CreditRepository creditRepository;
     private final S3Util s3Util;
 
+    /**
+     * 사용자가 영상파일을 올려 관리자에게 인증 요청
+     *
+     * @param requestDTO
+     * @return
+     */
     @Override
     public String createRequest(BoardRequestDTO requestDTO) {
         MultipartFile videoFile = requestDTO.getVideoFile();
@@ -46,6 +52,13 @@ public class RequestServiceImpl implements RequestService {
         return "success";
     }
 
+    /**
+     * 관리자자가 사용자의 인증요청 영상을 보고 거절 또는 수락
+     *
+     * @param rno
+     * @param updateDTO
+     * @return
+     */
     @Override
     public String updateRequest(Long rno, BoardRequestUpdateDTO updateDTO) {
         RequestBoard requestBoard = requestRepository.findById(rno).orElseThrow(
@@ -68,6 +81,12 @@ public class RequestServiceImpl implements RequestService {
         return "success";
     }
 
+    /**
+     * 단건조회
+     *
+     * @param rno
+     * @return
+     */
     @Override
     public BoardResponseDTO getOne(Long rno) {
         RequestBoard requestBoard = requestRepository.findById(rno)
@@ -76,6 +95,12 @@ public class RequestServiceImpl implements RequestService {
         return requestBoard.toResponseDTO();
     }
 
+    /**
+     * 유저가 보는 인증요청 리스트
+     *
+     * @param mid
+     * @return
+     */
     @Override
     public List<BoardResponseByUserDTO> getListByUser(String mid) {
         List<RequestBoard> listByUser = requestRepository.findListByUser(mid);
@@ -84,6 +109,11 @@ public class RequestServiceImpl implements RequestService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 관리자가 보는 인증요청 리스트
+     *
+     * @return
+     */
     @Override
     public List<BoardResponseByAdminDTO> getListByAdmin() {
         List<RequestBoard> listByAdmin = requestRepository.findAll();
