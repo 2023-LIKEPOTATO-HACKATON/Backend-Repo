@@ -43,8 +43,6 @@ public class Credit {
 
     private String description; //변동 사유
 
-    private String description;
-
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mid", nullable = false)
