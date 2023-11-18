@@ -1,0 +1,11 @@
+.git
+.github
+scripts
+ .dockerignore
+ Dockerfile
+
+README.md
+
+application-rasp.yml
+/src/main/resources/application.tar
+/src/test/
