@@ -70,7 +70,7 @@ jobs:
           secrets: |
             GIT_AUTH_TOKEN=${{ secrets.GIT_TOKEN }}
       - name: Connect to Server and Pull from Container Registry
-        uses: appleboy/ssh-action@v1.0.0 
+        uses: appleboy/ssh-action@v0.1.8
         with:
           host: ${{ secrets.NCP_SERVER_IP }}
           username: ${{ secrets.NCP_SERVER_USERNAME }}
@@ -92,18 +92,3 @@ jobs:
 
             docker run -d -p 8080:8080 ${{ secrets.NCP_CONTAINER_REGISTRY }}/potatothon-server:${{ secrets.LATEST_TAG }}
             docker image prune -f
-
-      # Record test results as comments in PR
-      - name: Write test results in comments to Pull Request
-        uses: EnricoMi/publish-unit-test-result-action@v1
-        if: always()
-        with:
-          files: '**/build/test-results/test/TEST-*.xml'
-
-      # If a test fails, write a check comment to the failed code line
-      - name: If a test fails, write a check comment to the failed code line
-        uses: mikepenz/action-junit-report@v3
-        if: always()
-        with:
-          report_paths: '**/build/test-results/test/TEST-*.xml'
-          token: ${{ github.token }}
