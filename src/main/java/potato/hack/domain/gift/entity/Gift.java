@@ -15,6 +15,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import potato.hack.domain.gift.dto.GiftResponseDTO;
 import potato.hack.domain.member.entity.Member;
 import potato.hack.global.BaseTimeEntity;
 
@@ -30,18 +31,38 @@ public class Gift extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long gno;
+
     @Column(name = "gift_name")
     private String gift_name;
+
     private String brand_name;
+
     @Column(name = "gift_price")
-    private int price; // 원가
+    private double price; // 원가
+
     @Column(name = "credit_price")
-    private int credit; // 크레딧 가격
+    private double credit; // 크레딧 가격
+
     private String image_url;
+
+    private String object_path;
+
     private boolean is_sold;
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mid", nullable = false)
     private Member member;
+
+    public GiftResponseDTO toDTO() {
+        return GiftResponseDTO.builder()
+                .gno(this.gno)
+                .gift_name(this.gift_name)
+                .brand_name(this.brand_name)
+                .price(this.price)
+                .credit(this.credit)
+                .discount_rate(Math.round(100 - (this.credit / this.price * 100)))
+                .image_url(this.image_url)
+                .build();
+    }
 }
