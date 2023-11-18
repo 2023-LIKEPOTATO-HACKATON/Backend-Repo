@@ -3,6 +3,7 @@ package potato.hack.domain.gift.repository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.Rollback;
 import potato.hack.domain.gift.entity.Gift;
 import potato.hack.domain.member.entity.Member;
@@ -16,14 +17,18 @@ class GiftRepositoryTest {
     GiftRepository giftRepository;
     @Autowired
     MemberRepository memberRepository;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Test
     @Rollback(value = false)
     void create_gift() {
         Member member = Member.builder()
-                .mid("jyp")
-                .password("1111")
-                .name("...@naver.com")
+                .mid("dhl")
+                .name("이동헌")
+                .phone("01012341234")
+                .credit_total(2350)
+                .password(passwordEncoder.encode("1111"))
                 .build();
 
         memberRepository.save(member);

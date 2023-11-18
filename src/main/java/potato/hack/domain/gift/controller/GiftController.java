@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import potato.hack.domain.gift.dto.GiftRequestDTO;
 import potato.hack.domain.gift.dto.GiftResponseDTO;
+import potato.hack.domain.gift.dto.PurchaseRequestDTO;
 import potato.hack.domain.gift.service.GiftService;
 import potato.hack.global.pageDTO.PageRequestDTO;
 import potato.hack.global.pageDTO.PageResponseDTO;
@@ -28,6 +29,11 @@ public class GiftController {
     @DeleteMapping("/delete/{gno}")
     public String deleteGift(@PathVariable("gno") Long gno) {
         return giftService.deleteGift(gno);
+    }
+
+    @PostMapping("/purchase")
+    public String purchaseGift(PurchaseRequestDTO purchaseRequestDTO) {
+        return giftService.purchaseGift(purchaseRequestDTO);
     }
 
     @GetMapping("/{gno}")
