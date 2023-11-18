@@ -23,7 +23,7 @@ class GiftRepositoryTest {
         Member member = Member.builder()
                 .mid("jyp")
                 .password("1111")
-                .email("...@naver.com")
+                .name("...@naver.com")
                 .build();
 
         memberRepository.save(member);
