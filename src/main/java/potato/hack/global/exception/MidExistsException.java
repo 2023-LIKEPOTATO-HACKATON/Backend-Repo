@@ -7,9 +7,9 @@ package potato.hack.global.exception;
 public class MidExistsException extends RuntimeException{
 
     /**
-     * 입력한 ID를 받아 예외를 생성한다.
+     * 만약 전달받은 ID가 존재한다면 예외를 반환한다.
      *
-     * @param mid 회원가입 시, 사용하려는 ID
+     * @param mid
      */
     public MidExistsException(String mid) {
         super("해당 ID(" + mid + ")는 이미 존재합니다.");

@@ -18,6 +18,10 @@ import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 import potato.hack.global.BaseTimeEntity;
 
+/**
+ * 서비스 사용자 정보
+ * @author 이동헌
+ */
 @Getter
 @Builder
 @AllArgsConstructor

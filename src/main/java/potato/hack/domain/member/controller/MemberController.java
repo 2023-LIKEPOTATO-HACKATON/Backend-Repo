@@ -19,12 +19,22 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    /**
+     * "/join" 엔드포인트를 통하여 회원가입을 한다.
+     * @param memberJoinDTO
+     * @return
+     */
     @PostMapping("/join")
     public ResponseEntity<String> joinNewUser(@Valid @RequestBody MemberJoinDTO memberJoinDTO ){
         memberService.registerStudent(memberJoinDTO);
         return ResponseEntity.ok("회원가입 성공");
     }
 
+    /**
+     * mid를 PathVariable로 전달하여 로그인한 사용자 정보를 조회한다.
+     * @param mid
+     * @return
+     */
     @PreAuthorize("authentication.principal.username == #mid")
     @GetMapping("/my/{mid}")
     public MemberResponseDTO getStudentInfo(@PathVariable String mid) {
@@ -32,6 +42,11 @@ public class MemberController {
         return memberService.getStudentDetails(mid);
     }
 
+    /**
+     * mid를 전달하여 로그인한 사용자의 크레딧 총액 정보를 조회한다.
+     * @param mid
+     * @return
+     */
     @PreAuthorize("authentication.principal.username == #mid")
     @GetMapping("/my/Total/{mid}")
     public Map<String, Integer> getMyCreditTotal(@PathVariable String mid) {

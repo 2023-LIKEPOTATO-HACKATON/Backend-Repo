@@ -4,7 +4,6 @@ package potato.hack.domain.member.service;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import potato.hack.domain.member.dto.MemberJoinDTO;
@@ -27,7 +26,12 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
-
+    /**
+     * mid를 전달하여 memberRepository에서 검색한 사용자 정보를 DTO로 변환하여 return한다.
+     * @author 이동헌
+     * @param mid
+     * @return MemberResponseDTO
+     */
     public MemberResponseDTO getStudentDetails(String mid) {
 
         Optional<Member> result = memberRepository.findById(mid);
@@ -44,6 +48,12 @@ public class MemberServiceImpl implements MemberService {
                 .build();
     }
 
+    /**
+     * JWTUtil에서 Token 생성 시, payload에 추가할 사용자 권한 정보(role)를 조회하여 반환한다.
+     * @author 이동헌
+     * @param mid
+     * @return role
+     */
     @Override
     public String getRoleSetByMid(String mid) {
         Optional<Member> result = memberRepository.findById(mid);
@@ -54,10 +64,15 @@ public class MemberServiceImpl implements MemberService {
             log.info("해당 유저는 " + role + " 권한을 가지고 있습니다.");
             return role;
         } else {
-                throw new UsernameNotFoundException("해당 아이디는 없는 사용자입니다.");
+                return String.valueOf(new MidExistsException(mid));
             }
         }
 
+    /**
+     * DTO로 사용자 가입 정보를 전달받아 Entity로 변환하고, memberRepository를 통해 저장한다.
+     * @author 이동헌
+     * @param memberJoinDTO
+     */
     public void registerStudent(MemberJoinDTO memberJoinDTO) {
 
         String mid = memberJoinDTO.getMid();
@@ -86,6 +101,11 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(member);
     }
 
+    /**
+     * mid를 전달받아 memberRepository에서 검색한 사용자 크레딧 총액 정보를 반환한다.
+     * @param mid
+     * @return
+     */
     @Override
     public int getMyCreditTotal(String mid) {
 
