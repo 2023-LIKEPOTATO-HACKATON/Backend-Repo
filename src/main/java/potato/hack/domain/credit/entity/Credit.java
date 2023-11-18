@@ -26,10 +26,13 @@ public class Credit {
     @Column(name = "credit_value")
     private int credit_value; // 감가액
 
-    private Long cause_id;
+    private Long cause_id; //크레딧 변동 원인 id
+
+    private String description; //변동 사유
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mid", nullable = false)
     private Member member;
+
 }
