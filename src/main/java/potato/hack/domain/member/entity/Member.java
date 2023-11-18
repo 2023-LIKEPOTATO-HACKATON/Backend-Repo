@@ -1,12 +1,22 @@
 package potato.hack.domain.member.entity;
 
-import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
-import potato.hack.global.BaseTimeEntity;
-
-import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.hibernate.annotations.ColumnDefault;
+import potato.hack.global.BaseTimeEntity;
 
 @Getter
 @Builder
@@ -41,13 +51,19 @@ public class Member extends BaseTimeEntity {
     @ColumnDefault("false") //삭제 여부
     private boolean is_deleted;
 
-    public void addRole(MemberRole memberRole){
+    public void addRole(MemberRole memberRole) {
         this.roleSet.add(memberRole);
     }
 
     public void changePassword(String password) {
         this.password = password;
     }
-//    private
-//    private List<Credit> creditList;
+
+    public void changeCredit(boolean isPlus, int value) {
+        if (isPlus) {
+            this.credit_total += value;
+        } else {
+            this.credit_total -= value;
+        }
+    }
 }
