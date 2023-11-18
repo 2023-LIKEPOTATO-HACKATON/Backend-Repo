@@ -1,10 +1,23 @@
 package potato.hack.domain.credit.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import potato.hack.domain.member.entity.Member;
-
-import javax.persistence.*;
 
 @Getter
 @Builder
@@ -27,6 +40,8 @@ public class Credit {
     private int credit_value; // 감가액
 
     private Long cause_id;
+
+    private String description;
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)

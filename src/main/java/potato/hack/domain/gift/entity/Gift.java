@@ -54,6 +54,10 @@ public class Gift extends BaseTimeEntity {
     @JoinColumn(name = "mid", nullable = false)
     private Member member;
 
+    public void setIs_sold(boolean is_sold) {
+        this.is_sold = is_sold;
+    }
+
     public GiftResponseDTO toDTO() {
         return GiftResponseDTO.builder()
                 .gno(this.gno)
