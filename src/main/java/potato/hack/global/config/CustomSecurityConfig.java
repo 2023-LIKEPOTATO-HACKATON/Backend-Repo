@@ -1,6 +1,7 @@
 package potato.hack.global.config;
 
 
+import java.util.Arrays;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -25,8 +26,6 @@ import potato.hack.global.security.filter.RefreshTokenFilter;
 import potato.hack.global.security.filter.TokenCheckFilter;
 import potato.hack.global.security.handler.APILoginSuccessHandler;
 import potato.hack.global.security.util.JWTUtil;
-
-import java.util.Arrays;
 
 @Configuration
 @Log4j2
@@ -55,42 +54,40 @@ public class CustomSecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception { //HttpSecurity 객체를 매개변수로 받아서 SecurityFilterChain 구성
+    public SecurityFilterChain filterChain(final HttpSecurity http)
+            throws Exception { //HttpSecurity 객체를 매개변수로 받아서 SecurityFilterChain 구성
 
         log.info("------------SecurityFilterChain 실행 중-------------------");
 
         //AuthenticationManager Setting
-        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);  //HttpSecurity 객체에서 AuthenticationManagerBuilder 인스턴스 획득
-        authenticationManagerBuilder.userDetailsService(apiUserDetailsService).passwordEncoder(passwordEncoder());  //AuthenticationManagerBuilder에서 passwordEncoder()를 사용하여 비밀번호를 암호화하고 비밀번호 검증
-
+        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(
+                AuthenticationManagerBuilder.class);  //HttpSecurity 객체에서 AuthenticationManagerBuilder 인스턴스 획득
+        authenticationManagerBuilder.userDetailsService(apiUserDetailsService).passwordEncoder(
+                passwordEncoder());  //AuthenticationManagerBuilder에서 passwordEncoder()를 사용하여 비밀번호를 암호화하고 비밀번호 검증
 
         //Get Built AuthenticationManager
         AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
 
-
         //HttpSecurity 객체에 AuthenticationManager 설정
         http.authenticationManager(authenticationManager);
 
-
         //APILoginFilter 설정
         APILoginFilter apiLoginFilter = new APILoginFilter("/login"); //로그인 처리를 하는 url 지정
-        apiLoginFilter.setAuthenticationManager(authenticationManager); //해당 url로 들어오는 로그인 요청을 처리할 때, APILoginFilter가 authenticationManager를 사용하여 사용자 인증을 수행
-
+        apiLoginFilter.setAuthenticationManager(
+                authenticationManager); //해당 url로 들어오는 로그인 요청을 처리할 때, APILoginFilter가 authenticationManager를 사용하여 사용자 인증을 수행
 
         //APILoginSuccessHandler에 jwtUtil를 주입
-        APILoginSuccessHandler successHandler = new APILoginSuccessHandler(jwtUtil); //successHandler 객체는 로그인 성공 시 호출되는 onAuthenticationSuccess() 메소드에서 JWT를 생성하고, 해당 JWT를 사용자에게 반환
-
+        APILoginSuccessHandler successHandler = new APILoginSuccessHandler(
+                jwtUtil); //successHandler 객체는 로그인 성공 시 호출되는 onAuthenticationSuccess() 메소드에서 JWT를 생성하고, 해당 JWT를 사용자에게 반환
 
         //APILoginSuccessHandler의 동작이 filter와 연동되도록 설정
         apiLoginFilter.setAuthenticationSuccessHandler(successHandler);
         //APILoginFilter 객체의 setAuthenticationSuccessHandler() 메소드를 사용하여, APILoginSuccessHandler 객체와 연동하도록 설정
 
-
         //APILoginFilter의 위치는 UsernamePasswordAuthenticationFilter 앞쪽에 동작하도록 설정
         http.addFilterBefore(apiLoginFilter, UsernamePasswordAuthenticationFilter.class);
         //로그인 요청이 UsernamePasswordAuthenticationFilter에서 처리되기 전에 APILoginFilter가 실행
         //APILoginFilter에서 생성된 JWT를 UsernamePasswordAuthenticationFilter에서 로그인 성공 시 생성되는 기본 세션 대신 사용
-
 
         //api로 시작하는 모든 경로는 TokenCheckFilter 동작
         http.addFilterBefore(
@@ -101,7 +98,6 @@ public class CustomSecurityConfig {
         //refreshToken 호출 처리
         http.addFilterBefore(new RefreshTokenFilter("/refreshToken", jwtUtil),
                 TokenCheckFilter.class);
-
 
         http.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable()); //csrf 토큰 비활성화
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); //세션을 사용하지 않음
@@ -117,7 +113,8 @@ public class CustomSecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() { //CorsConfigurationSource 인터페이스 구현
         CorsConfiguration configuration = new CorsConfiguration(); // Bean 생성
         configuration.setAllowedOriginPatterns(Arrays.asList("*")); //요청을 보내는 모든 도메인 허용
-        configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT", "DELETE", "OPTIONS")); //허용할 요청 메소드 설정
+        configuration.setAllowedMethods(
+                Arrays.asList("HEAD", "GET", "POST", "PUT", "DELETE", "OPTIONS")); //허용할 요청 메소드 설정
 
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type")); //요청 허용할 헤더
         configuration.setAllowCredentials(true); //인증 정보를 담은 요청도 허용
