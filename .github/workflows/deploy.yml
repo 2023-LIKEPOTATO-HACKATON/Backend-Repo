@@ -34,7 +34,9 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Decrypt application-rasp.yml
-        run: gpg --quiet --batch --yes --always-trust --decrypt --passphrase=${{ secrets.APPLICATION_RASP_YML }} --output $RESOURCE_PATH/application.tar $RESOURCE_PATH/application.tar.gpg
+        run: |
+            pwd
+            gpg --quiet --batch --yes --always-trust --decrypt --passphrase=${{ secrets.APPLICATION_RASP_YML }} --output $RESOURCE_PATH/application.tar $RESOURCE_PATH/application.tar.gpg
         shell: bash
 
       - name: Unzip application.tar file to application-rasp.yml
