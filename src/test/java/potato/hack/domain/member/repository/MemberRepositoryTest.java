@@ -17,7 +17,7 @@ class MemberRepositoryTest {
     void create_member() {
         Member jyp = Member.builder()
                 .mid("jyp")
-                .email("...@naver.com")
+                .name("...@naver.com")
                 .password("1111")
                 .build();
 
