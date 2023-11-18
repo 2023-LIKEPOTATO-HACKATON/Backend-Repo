@@ -19,6 +19,11 @@ public class CreditServiceImpl implements CreditService {
 
     private final CreditRepository creditRepository;
 
+    /**
+     * Credit 엔티티 목록을 dto로 변환하여 Controller에게 반환한다.
+     * @param mid
+     * @return
+     */
     @Override
     public List<CreditResponseDTO> getCreditList(String mid) {
         List<Credit> creditList = creditRepository.findCreditListByMid(mid);
@@ -28,7 +33,13 @@ public class CreditServiceImpl implements CreditService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Credit Entity를 전달받아 DTO로 변환한다.
+     * @param credit
+     * @return CreditResponseDTO
+     */
     private CreditResponseDTO entityDTO(Credit credit){
+
         return CreditResponseDTO.builder()
                 .cno(credit.getCno())
                 .credit_value(credit.getCredit_value())

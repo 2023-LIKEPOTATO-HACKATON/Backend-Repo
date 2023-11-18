@@ -8,6 +8,10 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * 서비스 사용자 정보
+ * @author 이동헌
+ */
 @Getter
 @Builder
 @AllArgsConstructor

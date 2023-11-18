@@ -6,6 +6,10 @@ import potato.hack.domain.member.entity.Member;
 
 import javax.persistence.*;
 
+/**
+ * @author 이동헌
+ * 사용자의 크레딧 정보 엔티티
+ */
 @Getter
 @Builder
 @AllArgsConstructor
