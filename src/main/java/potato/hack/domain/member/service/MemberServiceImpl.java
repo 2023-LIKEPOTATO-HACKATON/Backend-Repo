@@ -89,6 +89,6 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public int getMyCreditTotal(String mid) {
 
-        return memberRepository.getCreditTotal(mid);
+        return memberRepository.getMyCreditTotal(mid);
     }
 }
